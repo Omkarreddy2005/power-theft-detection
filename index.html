@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Power Theft Detection System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Roboto', sans-serif;
+    }
+    body {
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      padding: 40px 20px;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    header h1 {
+      font-size: 3rem;
+      color: #00e6e6;
+    }
+    header p {
+      font-size: 1.2rem;
+      margin-top: 10px;
+      color: #ccc;
+    }
+    section.features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      margin-top: 30px;
+    }
+    .card {
+      background: #1c1f26;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-10px);
+    }
+    .card h3 {
+      color: #00e6e6;
+      margin-bottom: 10px;
+    }
+    .card p {
+      color: #aaa;
+      font-size: 0.95rem;
+    }
+    footer {
+      text-align: center;
+      margin-top: 60px;
+      font-size: 0.9rem;
+      color: #888;
+    }
+    .live-data, .alert-box, .smart-meter {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #2a2d36;
+      border-radius: 10px;
+    }
+    .live-data p, .alert-box p, .smart-meter p {
+      font-size: 1rem;
+      color: #0ff;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Power Theft Detection System</h1>
+    <p>Detect and prevent unauthorized electricity usage using smart technology</p>
+  </header>
+
+  <section class="features">
+        <div class="card" onclick="location.href='realtime.html'">
+          <h3>Real-Time Monitoring</h3>
+          <p>Track energy consumption live and detect unusual patterns instantly.</p>
+          <div class="live-data">
+            <p id="liveData">Current Usage: -- kW</p>
+          </div>
+        </div>
+        <div class="card" onclick="location.href='analysis.html'">
+          <h3>Machine Learning Analysis</h3>
+          <p>Utilize intelligent algorithms to predict and identify theft behavior.</p>
+          <div class="analysis-result">
+            <p id="mlResult">Analyzing data...</p>
+          </div>
+        </div>
+        <div class="card" onclick="location.href='alerts.html'">
+          <h3>Automated Alerts</h3>
+          <p>Notify authorities or system admins the moment suspicious activity is detected.</p>
+          <div class="alert-box">
+            <p id="alertStatus">No alerts.</p>
+          </div>
+        </div>
+        <div class="card" onclick="location.href='smartmetrer.html'">
+          <h3>Smart Meter Integration</h3>
+          <p>Seamlessly work with smart meters for accurate data collection and processing.</p>
+          <div class="smart-meter">
+            <p id="meterStatus">Meter ID: 12345 | Status: Connected</p>
+          </div>
+        </div>
+      </section>
+      
+
+  <footer>
+    &copy; 2025 Power Theft Detection | All Rights Reserved
+  </footer>
+
+  <script>
+    // Simulate real-time data updates
+    setInterval(() => {
+      const usage = (Math.random() * 10 + 1).toFixed(2);
+      document.getElementById('liveData').innerText = `Current Usage: ${usage} kW`;
+
+      // Simulate ML analysis and alerts
+      if (usage > 9) {
+        document.getElementById('mlResult').innerText = 'Anomaly Detected: Possible Theft';
+        document.getElementById('alertStatus').innerText = 'ALERT: Unauthorized consumption detected!';
+        document.getElementById('alertStatus').style.color = 'red';
+      } else {
+        document.getElementById('mlResult').innerText = 'Usage Normal';
+        document.getElementById('alertStatus').innerText = 'No alerts.';
+        document.getElementById('alertStatus').style.color = '#0ff';
+      }
+    }, 3000);
+  </script>
+</body>
+</html>
