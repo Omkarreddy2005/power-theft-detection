@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Real-Time Monitoring</title>
+  <style>
+    body { background: #101820; color: #fff; font-family: Arial; padding: 20px; }
+    h1 { color: #00e6e6; }
+    #usage { font-size: 1.5rem; margin-top: 20px; }
+    .info { font-size: 1rem; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>Real-Time Monitoring</h1>
+  <p id="usage">Current Usage: -- kW</p>
+  <div class="info">
+    <p><strong>Real-Time Monitoring</strong> allows system administrators to track the energy consumption in real time. This feature ensures that power theft or any suspicious activity is immediately detected.</p>
+    <p>The system continuously compares the incoming data with expected usage patterns and flags any anomalies.</p>
+  </div>
+  <script>
+    setInterval(() => {
+      const usage = (Math.random() * 10 + 1).toFixed(2);
+      document.getElementById('usage').innerText = `Current Usage: ${usage} kW`;
+    }, 2000);
+  </script>
+</body>
+</html>

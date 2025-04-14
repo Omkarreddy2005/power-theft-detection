@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Machine Learning Analysis</title>
+  <style>
+    body { background: #111a2b; color: white; font-family: Arial; padding: 20px; }
+    h1 { color: #00e6e6; }
+    #mlResult { font-size: 1.3rem; margin-top: 20px; }
+    .info { font-size: 1rem; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>Machine Learning Analysis</h1>
+  <p id="mlResult">Analyzing...</p>
+  <div class="info">
+    <p><strong>Machine Learning Analysis</strong> leverages advanced algorithms to detect anomalies in energy consumption patterns.</p>
+    <p>By analyzing large datasets of normal and abnormal consumption, it can accurately predict suspicious activities that may indicate electricity theft.</p>
+  </div>
+  <script>
+    setInterval(() => {
+      const random = Math.random();
+      const result = random > 0.8 ? "Anomaly Detected: Possible Theft" : "Usage Pattern Normal";
+      document.getElementById('mlResult').innerText = result;
+    }, 3000);
+  </script>
+</body>
+</html>

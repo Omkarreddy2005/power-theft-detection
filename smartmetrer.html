@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Meter Integration</title>
+  <style>
+    body { background: #1f1f2e; color: white; font-family: Arial; padding: 20px; }
+    h1 { color: #00e6e6; }
+    .status { font-size: 1.2rem; margin-top: 20px; }
+    .info { font-size: 1rem; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>Smart Meter Integration</h1>
+  <p class="status" id="meterStatus">Checking meter status...</p>
+  <div class="info">
+    <p><strong>Smart Meter Integration</strong> allows for real-time data collection and monitoring of electricity usage.</p>
+    <p>Smart meters automatically transmit data to the utility company, eliminating manual meter readings and providing accurate usage data for billing and monitoring.</p>
+  </div>
+  <script>
+    setTimeout(() => {
+      document.getElementById('meterStatus').innerText = 'Smart Meter Connected (ID: 12345)';
+    }, 2000);
+  </script>
+</body>
+</html>
