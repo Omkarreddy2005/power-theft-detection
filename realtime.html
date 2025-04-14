@@ -1,0 +1,100 @@
+**real-time.html**
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Real-Time Monitoring</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      background: #0d1117;
+      color: #e6edf3;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 2rem;
+    }
+    header {
+      text-align: center;
+    }
+    h1 {
+      color: #58a6ff;
+    }
+    .card {
+      background-color: #161b22;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.1);
+      max-width: 800px;
+      margin: 2rem auto;
+    }
+    #usage {
+      font-size: 1.8rem;
+      margin-top: 1rem;
+    }
+    canvas {
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Real-Time Monitoring</h1>
+  </header>
+  <div class="card">
+    <p>Monitor live energy consumption and detect abnormal patterns instantly.</p>
+    <p id="usage">Current Usage: -- kW</p>
+    <canvas id="usageChart" width="600" height="300"></canvas>
+  </div>
+  <script>
+    const usageDisplay = document.getElementById('usage');
+    const ctx = document.getElementById('usageChart').getContext('2d');
+
+    const usageData = {
+      labels: [],
+      datasets: [{
+        label: 'Power Usage (kW)',
+        data: [],
+        borderColor: '#58a6ff',
+        backgroundColor: 'rgba(88, 166, 255, 0.2)',
+        borderWidth: 2,
+        tension: 0.3
+      }]
+    };
+
+    const config = {
+      type: 'line',
+      data: usageData,
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    };
+
+    const usageChart = new Chart(ctx, config);
+
+    setInterval(() => {
+      const usage = (Math.random() * 10 + 1).toFixed(2);
+      const timestamp = new Date().toLocaleTimeString();
+
+      if (usageData.labels.length > 20) {
+        usageData.labels.shift();
+        usageData.datasets[0].data.shift();
+      }
+
+      usageData.labels.push(timestamp);
+      usageData.datasets[0].data.push(usage);
+      usageChart.update();
+
+      usageDisplay.innerText = `Current Usage: ${usage} kW`;
+    }, 2000);
+  </script>
+</body>
+</html>
+```
+

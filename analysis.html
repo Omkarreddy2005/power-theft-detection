@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Machine Learning Analysis</title>
+  <style>
+    body {
+      background: #0c0c1b;
+      color: #e0e0e0;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 2rem;
+    }
+    h1 {
+      text-align: center;
+      color: #00ffff;
+    }
+    .card {
+      background-color: #181824;
+      padding: 2rem;
+      margin: 2rem auto;
+      max-width: 700px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+    }
+    #mlResult {
+      font-size: 1.3rem;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Machine Learning Analysis</h1>
+  <div class="card">
+    <p>The system uses trained models to detect irregular patterns in electricity usage that may indicate theft or technical issues.</p>
+    <p id="mlResult">Analyzing...</p>
+  </div>
+  <script>
+    setInterval(() => {
+      const random = Math.random();
+      const result = random > 0.8 ? "Anomaly Detected: Possible Theft" : "Usage Pattern Normal";
+      document.getElementById('mlResult').innerText = result;
+    }, 3000);
+  </script>
+</body>
+</html>

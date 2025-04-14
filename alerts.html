@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Automated Alerts</title>
+  <style>
+    body {
+      background: #131a22;
+      color: #ffffff;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 2rem;
+    }
+    h1 {
+      text-align: center;
+      color: #ff5c5c;
+    }
+.card {
+background-color: #202c3c;
+padding: 2rem;
+border-radius: 10px;
+max-width: 700px;
+margin: 2rem auto;
+box-shadow: 0 0 15px rgba(255, 0, 0, 0.2);
+}
+#alert {
+font-size: 1.3rem;
+font-weight: bold;
+margin-top: 20px;
+}
+</style>
+</head>
+<body>
+<h1>Automated Alerts</h1>
+<div class="card">
+<p>This system generates alerts in real time based on detected anomalies in power usage. Authorities are immediately notified for quick action.</p>
+<p id="alert">No alerts yet.</p>
+</div>
+
+<script>
+// Request notification permission
+if (Notification.permission !== 'granted') {
+Notification.requestPermission();
+}
+
+function sendNotification(message) {
+if (Notification.permission === 'granted') {
+new Notification('Power Theft Alert', {
+body: message,
+icon: 'https://cdn-icons-png.flaticon.com/512/4406/4406118.png',
+});
+}
+}
+
+setInterval(() => {
+const random = Math.random();
+const isAlert = random > 0.85;
+const alertMessage = isAlert ? 'ALERT: Unauthorized usage detected!' : 'System Normal';
+
+document.getElementById('alert').innerText = alertMessage;
+document.getElementById('alert').style.color = isAlert ? '#ff4c4c' : '#4caf50';
+
+if (isAlert) {
+sendNotification(alertMessage);
+}
+}, 4000);
+</script>
+</body>
+</html>

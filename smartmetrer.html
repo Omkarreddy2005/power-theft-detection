@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Meter Integration</title>
+  <style>
+    body {
+      background-color: #121212;
+      color: #ffffff;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 2rem;
+      margin: 0;
+    }
+    h1 {
+      text-align: center;
+      color: #00e6e6;
+    }
+    .card {
+      background-color: #1f1f2e;
+      padding: 2rem;
+      border-radius: 10px;
+      margin: 2rem auto;
+      max-width: 800px;
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+    }
+    .status, .usage, .bill, .fine {
+      font-size: 1.3rem;
+      margin-top: 20px;
+    }
+    table {
+      width: 100%;
+      margin-top: 1rem;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid #555;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #2e2e3e;
+    }
+    .pay-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #00e6e6;
+      color: #000;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Smart Meter Integration</h1>
+  <div class="card">
+    <p class="status" id="meterStatus">Checking meter status...</p>
+    <p class="usage" id="totalUsage">Total Power Consumed: -- kWh</p>
+    <p class="bill" id="currentBill">Current Bill: ₹ --</p>
+    <p class="fine" id="fineNotice"></p>
+
+    <h3>Billing Details</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Time</th>
+          <th>Usage (kWh)</th>
+          <th>Rate (₹/kWh)</th>
+          <th>Cost (₹)</th>
+        </tr>
+      </thead>
+      <tbody id="billingTable"></tbody>
+    </table>
+
+    <button class="pay-btn" onclick="payNow()">Pay Now</button>
+  </div>
+
+  <script>
+    let totalUsage = 0;
+    let bill = 0;
+    let fineAdded = false;
+    const ratePerKwh = 6.5;
+    const fineAmount = 100;
+    let updatesCount = 0;
+    const maxUpdates = 10; // Stop after 10 updates (10 seconds if interval is 1s)
+
+    setTimeout(() => {
+      document.getElementById('meterStatus').innerText = 'Smart Meter Connected (ID: 12345XYZ)';
+    }, 2000);
+
+    function updateBill() {
+      if (updatesCount >= maxUpdates) return;
+
+      const usage = +(Math.random() * 1 + 0.2).toFixed(2); // Simulate usage
+      const cost = +(usage * ratePerKwh).toFixed(2);
+      const time = new Date().toLocaleTimeString();
+
+      totalUsage += usage;
+      bill += cost;
+
+      // Simulate theft detection
+      const theftDetected = Math.random() > 0.9;
+      if (theftDetected && !fineAdded) {
+        bill += fineAmount;
+        fineAdded = true;
+        document.getElementById('fineNotice').innerText = `⚠️ Power Theft Detected. Fine of ₹${fineAmount} added.`;
+        document.getElementById('fineNotice').style.color = 'red';
+      }
+
+      document.getElementById('totalUsage').innerText = `Total Power Consumed: ${totalUsage.toFixed(2)} kWh`;
+      document.getElementById('currentBill').innerText = `Current Bill: ₹ ${bill.toFixed(2)}`;
+
+      const row = `<tr><td>${time}</td><td>${usage}</td><td>${ratePerKwh}</td><td>${cost}</td></tr>`;
+      document.getElementById('billingTable').innerHTML += row;
+
+      updatesCount++;
+    }
+
+    function payNow() {
+      alert(`Redirecting to payment gateway. Total bill: ₹${bill.toFixed(2)}`);
+      // Redirect to a mock payment gateway
+      window.location.href = 'https://www.example.com/payment';
+    }
+
+    setInterval(updateBill, 1000);
+  </script>
+</body>
+</html>
