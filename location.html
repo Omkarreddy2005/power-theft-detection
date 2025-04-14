@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Meter Locations</title>
+  <style>
+    body {
+      background-color: #101820;
+      color: #ffffff;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 2rem;
+      margin: 0;
+    }
+    h1 {
+      text-align: center;
+      color: #00e6e6;
+    }
+    .location-list {
+      max-width: 600px;
+      margin: 2rem auto;
+      background: #1c1f2b;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,255,255,0.2);
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 1rem;
+      border-radius: 6px;
+      border: none;
+      font-size: 1rem;
+    }
+    ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
+    li {
+      padding: 10px;
+      border-bottom: 1px solid #333;
+      cursor: pointer;
+    }
+    li:hover {
+      background-color: #2b2b3b;
+    }
+    li:last-child {
+      border-bottom: none;
+    }
+    iframe {
+      width: 100%;
+      height: 300px;
+      margin-top: 2rem;
+      border: none;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Smart Meter Locations</h1>
+  <div class="location-list">
+    <input type="text" id="search" placeholder="Search locations..." onkeyup="filterLocations()">
+    <ul id="locationUl">
+      <li onclick="showMap('Sector 1, Building A')">Sector 1 - Building A</li>
+      <li onclick="showMap('Sector 1, Building B')">Sector 1 - Building B</li>
+      <li onclick="showMap('Sector 2, Block C')">Sector 2 - Block C</li>
+      <li onclick="showMap('Sector 2, Block D')">Sector 2 - Block D</li>
+      <li onclick="showMap('Sector 3, Street 4')">Sector 3 - Street 4</li>
+      <li onclick="showMap('Sector 4, Villa Park')">Sector 4 - Villa Park</li>
+      <li onclick="showMap('Sector 5, Green Complex')">Sector 5 - Green Complex</li>
+      <li onclick="showMap('Sector 6, Tech Square')">Sector 6 - Tech Square</li>
+      <li onclick="showMap('Sector 7, Residency Towers')">Sector 7 - Residency Towers</li>
+      <li onclick="showMap('Sector 8, Horizon Heights')">Sector 8 - Horizon Heights</li>
+    </ul>
+    <iframe id="mapFrame" src="https://maps.google.com/maps?q=India&output=embed"></iframe>
+  </div>
+  <script>
+    function filterLocations() {
+      const input = document.getElementById('search');
+      const filter = input.value.toLowerCase();
+      const ul = document.getElementById('locationUl');
+      const li = ul.getElementsByTagName('li');
+      for (let i = 0; i < li.length; i++) {
+        const txtValue = li[i].textContent || li[i].innerText;
+        li[i].style.display = txtValue.toLowerCase().indexOf(filter) > -1 ? "" : "none";
+      }
+    }
+
+    function showMap(location) {
+      const mapUrl = `https://maps.google.com/maps?q=${encodeURIComponent(location)}&output=embed`;
+      document.getElementById('mapFrame').src = mapUrl;
+    }
+  </script>
+</body>
+</html>
