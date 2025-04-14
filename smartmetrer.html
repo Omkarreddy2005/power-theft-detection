@@ -21,7 +21,7 @@
       padding: 2rem;
       border-radius: 10px;
       margin: 2rem auto;
-      max-width: 800px;
+      max-width: 900px;
       box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
     }
     .status, .usage, .bill, .fine {
@@ -36,7 +36,7 @@
     th, td {
       border: 1px solid #555;
       padding: 8px;
-      text-align: left;
+      text-align: center;
     }
     th {
       background-color: #2e2e3e;
@@ -57,74 +57,75 @@
   <h1>Smart Meter Integration</h1>
   <div class="card">
     <p class="status" id="meterStatus">Checking meter status...</p>
-    <p class="usage" id="totalUsage">Total Power Consumed: -- kWh</p>
-    <p class="bill" id="currentBill">Current Bill: ₹ --</p>
-    <p class="fine" id="fineNotice"></p>
 
-    <h3>Billing Details</h3>
+    <h3>Household Wise Billing (15 Households)</h3>
     <table>
       <thead>
         <tr>
-          <th>Time</th>
-          <th>Usage (kWh)</th>
-          <th>Rate (₹/kWh)</th>
-          <th>Cost (₹)</th>
+          <th>Household</th>
+          <th>Total Usage (kWh)</th>
+          <th>Fine (₹)</th>
+          <th>Total Bill (₹)</th>
         </tr>
       </thead>
       <tbody id="billingTable"></tbody>
     </table>
 
-    <button class="pay-btn" onclick="payNow()">Pay Now</button>
+    <button class="pay-btn" onclick="payNow()">Pay All Bills</button>
   </div>
 
   <script>
-    let totalUsage = 0;
-    let bill = 0;
-    let fineAdded = false;
+    const numHouses = 15;
     const ratePerKwh = 6.5;
     const fineAmount = 100;
-    let updatesCount = 0;
-    const maxUpdates = 10; // Stop after 10 updates (10 seconds if interval is 1s)
+    const maxUpdates = 10;
+    const usageData = Array.from({ length: numHouses }, () => ({ usage: 0, fine: 0, bill: 0 }));
 
     setTimeout(() => {
-      document.getElementById('meterStatus').innerText = 'Smart Meter Connected (ID: 12345XYZ)';
+      document.getElementById('meterStatus').innerText = '15 Smart Meters Connected';
     }, 2000);
 
-    function updateBill() {
-      if (updatesCount >= maxUpdates) return;
-
-      const usage = +(Math.random() * 1 + 0.2).toFixed(2); // Simulate usage
-      const cost = +(usage * ratePerKwh).toFixed(2);
-      const time = new Date().toLocaleTimeString();
-
-      totalUsage += usage;
-      bill += cost;
-
-      // Simulate theft detection
-      const theftDetected = Math.random() > 0.9;
-      if (theftDetected && !fineAdded) {
-        bill += fineAmount;
-        fineAdded = true;
-        document.getElementById('fineNotice').innerText = `⚠️ Power Theft Detected. Fine of ₹${fineAmount} added.`;
-        document.getElementById('fineNotice').style.color = 'red';
+    let updateCount = 0;
+    const interval = setInterval(() => {
+      if (updateCount >= maxUpdates) {
+        clearInterval(interval);
+        return;
       }
 
-      document.getElementById('totalUsage').innerText = `Total Power Consumed: ${totalUsage.toFixed(2)} kWh`;
-      document.getElementById('currentBill').innerText = `Current Bill: ₹ ${bill.toFixed(2)}`;
+      usageData.forEach((house, index) => {
+        const usage = +(Math.random() * 1.5 + 0.5).toFixed(2);
+        house.usage += usage;
 
-      const row = `<tr><td>${time}</td><td>${usage}</td><td>${ratePerKwh}</td><td>${cost}</td></tr>`;
-      document.getElementById('billingTable').innerHTML += row;
+        const theftDetected = Math.random() > 0.93;
+        if (theftDetected && house.fine === 0) {
+          house.fine = fineAmount;
+        }
 
-      updatesCount++;
+        house.bill = +(house.usage * ratePerKwh + house.fine).toFixed(2);
+      });
+
+      renderTable();
+      updateCount++;
+    }, 1000);
+
+    function renderTable() {
+      const table = usageData.map((house, i) =>
+        `<tr>
+          <td>House ${i + 1}</td>
+          <td>${house.usage.toFixed(2)}</td>
+          <td>${house.fine}</td>
+          <td>${house.bill.toFixed(2)}</td>
+        </tr>`
+      ).join('');
+
+      document.getElementById('billingTable').innerHTML = table;
     }
 
     function payNow() {
-      alert(`Redirecting to payment gateway. Total bill: ₹${bill.toFixed(2)}`);
-      // Redirect to a mock payment gateway
+      const total = usageData.reduce((sum, h) => sum + h.bill, 0).toFixed(2);
+      alert(`Redirecting to payment gateway. Total amount: ₹${total}`);
       window.location.href = 'https://www.example.com/payment';
     }
-
-    setInterval(updateBill, 1000);
   </script>
 </body>
 </html>
